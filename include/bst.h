@@ -26,7 +26,7 @@ public:
       (*ptr)->data = n_data;
       (*ptr)->right = NULL;
       (*ptr)->left = NULL;
-     // std::cout << n_data << " was inserted " << std::endl;
+      // std::cout << n_data << " was inserted " << std::endl;
       return;
     }
     if (n_data > (*ptr)->data)
@@ -70,35 +70,52 @@ public:
     printpot(ptr->right);
   }
 
-  int findLargest() {
-      return findLargest(head);
-  }
+  int findLargest() { return findLargest(head); }
 
   int findLargest(Node<T> *ptr) {
-      if ( ptr->right == NULL)
-          return ptr->data;
+    if (ptr->right == NULL)
+      return ptr->data;
 
-      return findLargest(ptr->right);
+    return findLargest(ptr->right);
   }
 
-int findSmallest() {
-      return findSmallest(head);
-  }
+  int findSmallest() { return findSmallest(head); }
 
   int findSmallest(Node<T> *ptr) {
-      if ( ptr->left == NULL)
-          return ptr->data;
+    if (ptr->left == NULL)
+      return ptr->data;
 
-      return findSmallest(ptr->left);
+    return findSmallest(ptr->left);
   }
-  void deleteTree(int d_data) {
-    deleteTree(d_data, head);
-  }
-  
+  void deleteTree(int d_data) { deleteTree(d_data, head); }
+
   void deleteTree(int d_data, Node<T> *&ptr) {
-    while (ptr->data != d_data) {
+    if (d_data != ptr->data) {
+      if (d_data < ptr->data)
+        deleteTree(d_data, (ptr->left));
+      else
+        deleteTree(d_data, (ptr->right));
+    } else {
+      if (ptr->right == NULL && ptr->left == NULL) {
+        Node<T> *temp = ptr;
+        ptr = NULL;
+        free(temp);
+      } else if (ptr->right == NULL) {
+        Node<T> *temp = ptr;
+        ptr = ptr->left;
+        free(temp);
+      } else if (ptr->left == NULL) {
+        Node<T> *temp = ptr;
+        ptr = ptr->right;
+        free(temp);
+      } else {
+          int p = findSmallest(ptr->right);
+          ptr->data = p;
+          deleteTree(p, ptr->right);
+      }
     }
   }
+
 private:
   Node<T> *head;
 };

@@ -21,5 +21,9 @@ int main() {
   g1.printiot();
   g1.printpot();
 
+  g1.deleteTree(40);
+  g1.printiot();
+  g1.printpot();
+
   return 0;
 }
